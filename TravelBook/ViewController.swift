@@ -39,7 +39,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(chooseLocation(gestureRecognizer:)))
                                                              
         // Do any additional setup after loading the view.
-        gestureRecognizer.minimumPressDuration = 2
+        gestureRecognizer.minimumPressDuration = 1.5
         mapView.addGestureRecognizer(gestureRecognizer)
                                         
     }
