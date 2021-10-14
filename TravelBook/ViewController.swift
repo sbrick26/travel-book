@@ -47,24 +47,30 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     @objc func chooseLocation(gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == .began {
             
-            if !self.mapView.annotations.isEmpty {
-                let annotations = self.mapView.annotations
-                self.mapView.removeAnnotations(annotations)
+            if nameText.text == "" || noteText.text == "" {
+                let alert = UIAlertController(title: "Please fill out all fields.", message: "Cannot add an annotation without Name and Note.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                
             }
-            
-            let touchPoint = gestureRecognizer.location(in: self.mapView)
-            let touchCoordinates = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
-            
-            chosenLatitude = touchCoordinates.latitude
-            chosenLongitude = touchCoordinates.longitude
-            // create pin/annotation
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = touchCoordinates // set coordinate
-            annotation.title = nameText.text
-            annotation.subtitle = noteText.text
-            self.mapView.addAnnotation(annotation)
-            
-            
+            else {
+                if !self.mapView.annotations.isEmpty {
+                    let annotations = self.mapView.annotations
+                    self.mapView.removeAnnotations(annotations)
+                }
+                
+                let touchPoint = gestureRecognizer.location(in: self.mapView)
+                let touchCoordinates = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
+                
+                chosenLatitude = touchCoordinates.latitude
+                chosenLongitude = touchCoordinates.longitude
+                // create pin/annotation
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = touchCoordinates // set coordinate
+                annotation.title = nameText.text
+                annotation.subtitle = noteText.text
+                self.mapView.addAnnotation(annotation)
+            }
         }
     }
     
