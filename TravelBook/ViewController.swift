@@ -48,7 +48,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         if gestureRecognizer.state == .began {
             
             if nameText.text == "" || noteText.text == "" {
-                let alert = UIAlertController(title: "Please fill out all fields.", message: "Cannot add an annotation without Name and Note.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Please fill out all fields.", message: "Cannot add an annotation without both name and note.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
                 
