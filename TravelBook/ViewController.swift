@@ -48,7 +48,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         if gestureRecognizer.state == .began {
             
             if nameText.text == "" || noteText.text == "" {
-                let alert = UIAlertController(title: "Please fill out all fields.", message: "Cannot add an annotation without both name and note.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Please fill out the fields above.", message: "Cannot add an annotation without both name and note.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
                 
@@ -90,26 +90,34 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         // save to Core Data when button is clicked
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
         
-        let newPlace = NSEntityDescription.insertNewObject(forEntityName: "Places", into: context)
-        
-        // Add to everything in Core Data Database
-        newPlace.setValue(nameText.text, forKey: "title")
-        newPlace.setValue(noteText.text, forKey: "subtitle")
-        newPlace.setValue(chosenLatitude, forKey: "latitude")
-        newPlace.setValue(chosenLongitude, forKey: "longitude")
-        newPlace.setValue(UUID(), forKey: "id")
-        
-        do{
-            try context.save()
-            print("Saved to Core Data")
-        } catch {
-            print("Could not save properly")
+        if nameText.text == "" || noteText.text == "" || self.mapView.annotations.isEmpty {
+            let alert = UIAlertController(title: "Please complete all fields before saving.", message: "Cannot save data without name, note, AND map annotation.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
         
-        
+        else {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            
+            let newPlace = NSEntityDescription.insertNewObject(forEntityName: "Places", into: context)
+            
+            // Add to everything in Core Data Database
+            newPlace.setValue(nameText.text, forKey: "title")
+            newPlace.setValue(noteText.text, forKey: "subtitle")
+            newPlace.setValue(chosenLatitude, forKey: "latitude")
+            newPlace.setValue(chosenLongitude, forKey: "longitude")
+            newPlace.setValue(UUID(), forKey: "id")
+            
+            do{
+                try context.save()
+                print("Saved to Core Data")
+            } catch {
+                print("Could not save properly")
+            }
+        }
+
     }
     
 }
