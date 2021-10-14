@@ -46,6 +46,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     @objc func chooseLocation(gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == .began {
+            
+            if !self.mapView.annotations.isEmpty {
+                let annotations = self.mapView.annotations
+                self.mapView.removeAnnotations(annotations)
+            }
+            
             let touchPoint = gestureRecognizer.location(in: self.mapView)
             let touchCoordinates = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
             
@@ -57,6 +63,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             annotation.title = nameText.text
             annotation.subtitle = noteText.text
             self.mapView.addAnnotation(annotation)
+            
+            
         }
     }
     
